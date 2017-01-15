@@ -4,6 +4,10 @@
   "description": "Vue.js number input component.",
   "author": "Osvaldo Brignoni <hello@obrignoni.com>",
   "main": "src/components/NumberInput.vue",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fivelabs/vue-number-input.git"
+  },
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
