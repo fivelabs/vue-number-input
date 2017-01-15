@@ -1,5 +1,5 @@
 {
-  "name": "vue-number-input",
+  "name": "fivelabs-vue-number-input",
   "version": "1.0.0",
   "description": "Vue.js number input component.",
   "author": "Osvaldo Brignoni <hello@obrignoni.com>",
@@ -12,6 +12,7 @@
     "test": "npm run unit && npm run e2e"
   },
   "keywords": [
+    "fivelabs",
     "input",
     "number",
     "number-input",
