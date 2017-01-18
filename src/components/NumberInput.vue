@@ -7,6 +7,8 @@
         ref="el"
         type="text"
         v-model="number"
+        @keydown.up="increment"
+        @keydown.down="decrement"
     >
 </template>
 <script>
@@ -18,16 +20,28 @@
         },
         methods: {
             filter (number) {
-                if (!number) return ''
-                let string = number.toString().replace(/[^0-9]/g, '')
-                return this.limit > 0 ? string.substring(0, this.limit) : string
+                if (!number) return '';
+                let string = number.toString().replace(/[^0-9]/g, '');
+                return this.limit > 0 ? string.substring(0, this.limit) : string;
             },
             focus() {
-                this.$refs.el.focus()
+                this.$refs.el.focus();
+                return this;
             },
             select() {
-                this.$refs.el.select()
+                this.$refs.el.select();
+                return this;
             },
+            increment() {
+                let number = parseInt(this.number);
+
+                if(!number) return this.number = this.step;
+
+                this.number = number + this.step;
+            },
+            decrement() {
+                this.number = parseInt(this.number) - this.step;
+            }
         },
         computed: {
             filteredPlaceholder() {
@@ -53,6 +67,10 @@
                 default: '',
             },
             value: [Number, String],
+            step: {
+                type: Number,
+                default: 1,
+            }
         },
         created() {
             this.number = this.filter(this.value)
