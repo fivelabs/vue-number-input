@@ -9,6 +9,8 @@
           @empty="empty"
           autofocus
           ref="component"
+          :min="100"
+          :max="130"
         >
         </number-input>
       </div>

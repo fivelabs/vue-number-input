@@ -9,6 +9,7 @@
         v-model="number"
         @keydown.up="increment"
         @keydown.down="decrement"
+        @blur="blur"
     >
 </template>
 <script>
@@ -22,7 +23,19 @@
             filter (number) {
                 if (!number) return '';
                 let string = number.toString().replace(/[^0-9]/g, '');
-                return this.limit > 0 ? string.substring(0, this.limit) : string;
+                return this.filterMax(this.limit > 0 ? string.substring(0, this.limit) : string);
+            },
+            filterMin(number) {
+                if (this.min > 0 && number < this.min) {
+                    return this.min;
+                }
+                return number;
+            },
+            filterMax(number) {
+                if (this.max > 0 && number > this.max) {
+                    return this.max;
+                }
+                return number;
             },
             focus() {
                 this.$refs.el.focus();
@@ -35,13 +48,16 @@
             increment() {
                 let number = parseInt(this.number);
 
-                if(!number) return this.number = this.step;
+                if(!number) return this.number = this.filterMax(this.step);
 
-                this.number = number + this.step;
+                this.number = this.filterMax(number + this.step);
             },
             decrement() {
-                this.number = parseInt(this.number) - this.step;
-            }
+                this.number = this.filterMin(parseInt(this.number) - this.step);
+            },
+            blur() {
+                this.number = this.filterMin(this.number);
+            },
         },
         computed: {
             filteredPlaceholder() {
@@ -70,6 +86,14 @@
             step: {
                 type: Number,
                 default: 1,
+            },
+            min: {
+                type: Number,
+                default: 0,
+            },
+            max: {
+                type: Number,
+                default: 0,
             }
         },
         created() {
