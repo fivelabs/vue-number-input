@@ -21,18 +21,18 @@
         },
         methods: {
             filter (number) {
-                if (!number) return '';
+                if (!number && number != 0) return '';
                 let string = number.toString().replace(/[^0-9]/g, '');
-                return this.filterMax(this.limit > 0 ? string.substring(0, this.limit) : string);
+                return this.filterMax(this.limit >= 0 ? string.substring(0, this.limit) : string);
             },
             filterMin(number) {
-                if (this.min > 0 && number < this.min) {
+                if (number < this.min) {
                     return this.min;
                 }
                 return number;
             },
             filterMax(number) {
-                if (this.max > 0 && number > this.max) {
+                if (number > this.max) {
                     return this.max;
                 }
                 return number;
@@ -66,11 +66,12 @@
         },
         watch: {
             number (number) {
-                this.$emit('input', this.number = this.filter(number))
-                if (!number) this.$emit('empty')
+                this.$emit('input', this.number = this.filter(number));
+                if (!number) this.$emit('empty');
+                if (this.limit && number.length == this.limit) this.$emit('full');
             },
             value (value) {
-                this.number = this.filter(value)
+                this.number = this.filter(value);
             },
         },
         props: {
@@ -97,7 +98,7 @@
             }
         },
         created() {
-            this.number = this.filter(this.value)
+            this.number = this.filter(this.value);
         }
     }
 </script>
